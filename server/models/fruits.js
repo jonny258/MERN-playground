@@ -4,7 +4,7 @@ const fruitsSchema = new mongoose.Schema({
     fruit: {type:String, required: true},
     brand: String,
     price: String,
-    Stock: Number,
+    stock: Number,
 
     lastAccessed: { type: Date, default: Date.now}
 })

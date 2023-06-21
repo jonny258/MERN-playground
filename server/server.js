@@ -8,10 +8,14 @@ const PORT = 5000;
 const cors = require("cors");
 
 app.use(cors());
-app.use(routes);
+//app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(routes);
+
+
 
 db.once("open", () => {
+  console.log('connected to mongoDB')
   app.listen(PORT, () => {
     console.log("app listening on 5000");
   });
