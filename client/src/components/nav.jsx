@@ -34,6 +34,9 @@ function Nav() {
               <a className="nav-link" href="/write">
                 Write
               </a>
+              <a className="nav-link" href="/person">
+                Person
+              </a>
             </div>
           </div>
         </div>

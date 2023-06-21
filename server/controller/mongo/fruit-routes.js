@@ -13,13 +13,15 @@ router.get('/', async (req, res) => {
 
 router.post('/', async(req, res) => {
     try{
-        console.log(req.body)
        const newFruit = new Fruit({
             fruit: req.body.fruit,
             brand: req.body.brand,
             price: req.body.price,
             stock: req.body.stock
         })
+
+        newFruit.printAdd()
+        newFruit.protentialProfit()
         newFruit.save()
 
         res.status(200).json(newFruit)

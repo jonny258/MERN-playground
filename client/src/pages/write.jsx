@@ -1,20 +1,15 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Footer from "../components/footer";
 import Header from "../components/header";
-
-const firstName = document.getElementById("first-name");
-const lastName = document.getElementById("last-name");
-const city = document.getElementById("city");
-const state = document.getElementById("state");
-const zip = document.getElementById("zip");
+import PersonPage from "./person";
 
 class Person {
   constructor(firstName, lastName, city, state, zip) {
-    (this.firstName = firstName),
-      (this.lastName = lastName),
-      (this.city = city),
-      (this.state = state),
-      (this.zip = zip);
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.city = city;
+    this.state = state;
+    this.zip = zip;
   }
 
   show() {
@@ -23,16 +18,57 @@ class Person {
 }
 
 function Write() {
-  const writeButtonHandler = () => {
-    const newPerson = new Person(
-      firstName.value,
-      lastName.value,
-      city.value,
-      state.value,
-      zip.value
-    );
-    newPerson.show();
+  const [apiPersonData, setApiPersonData] = useState([]);
+  const firstNameRef = useRef(null);
+  const lastNameRef = useRef(null);
+  const cityRef = useRef(null);
+  const stateRef = useRef(null);
+  const zipRef = useRef(null);
+
+  const writeButtonHandler = async () => {
+    try {
+      console.log(apiPersonData)
+      const newPerson = new Person(
+        firstNameRef.current.value,
+        lastNameRef.current.value,
+        cityRef.current.value,
+        stateRef.current.value,
+        zipRef.current.value
+      );
+      
+      fetch("http://localhost:5000/mongo/person", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+        body: JSON.stringify(newPerson),
+      });
+      // Fetch the updated person data after the write operation
+      const rawPersonData = await fetch("http://localhost:5000/mongo/person");
+      const personData = await rawPersonData.json();
+      setApiPersonData(personData);
+      
+    } catch (err) {
+      console.error(err);
+    }
   };
+
+  // Fetch the initial person data when the component mounts
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const rawPersonData = await fetch("http://localhost:5000/mongo/person");
+        const personData = await rawPersonData.json();
+        setApiPersonData(personData);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+
   return (
     <>
       <Header />
@@ -40,7 +76,7 @@ function Write() {
         <div className="row">
           <div className="col">
             <input
-              id="first-name"
+              ref={firstNameRef}
               type="text"
               className="form-control"
               placeholder="First name"
@@ -49,7 +85,7 @@ function Write() {
           </div>
           <div className="col">
             <input
-              id="last-name"
+              ref={lastNameRef}
               type="text"
               className="form-control"
               placeholder="Last name"
@@ -60,7 +96,7 @@ function Write() {
         <div className="row g-3">
           <div className="col-sm-7">
             <input
-              id="city"
+              ref={cityRef}
               type="text"
               className="form-control"
               placeholder="City"
@@ -69,7 +105,7 @@ function Write() {
           </div>
           <div className="col-sm">
             <input
-              id="state"
+              ref={stateRef}
               type="text"
               className="form-control"
               placeholder="State"
@@ -78,7 +114,7 @@ function Write() {
           </div>
           <div className="col-sm">
             <input
-              id="zip"
+              ref={zipRef}
               type="text"
               className="form-control"
               placeholder="Zip"
@@ -86,13 +122,11 @@ function Write() {
             />
           </div>
         </div>
-        <button
-          className="btn btn-primary"
-          onClick={() => writeButtonHandler()}
-        >
+        <button className="btn btn-primary" onClick={writeButtonHandler}>
           Submit
         </button>
       </div>
+      <PersonPage data={ apiPersonData }/>
       <Footer />
     </>
   );

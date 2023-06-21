@@ -5,6 +5,7 @@ import ClassGroup from "./pages/class";
 import Home from "./pages/home";
 import States from "./pages/states";
 import Nav from "./components/nav";
+import Person from "./pages/person";
 
 
 
@@ -30,6 +31,7 @@ function App() {
           <Route path="/states" element={<States data={apiStateData}/>} />
           <Route path="/write" element={<Write />} />
           <Route path="/class" element={<ClassGroup teacher={'Ms.teach-teach'}/>} />
+          <Route path="/Person" element={<Person />} />
         </Routes>
       </Router>
     </>
