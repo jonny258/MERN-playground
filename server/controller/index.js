@@ -1,9 +1,9 @@
 const router = require('express').Router()
 
 const api = require('./api')
-const mongoTest = require('./mongoTest')
+const mongo = require('./mongo')
 
 router.use('/api', api)
-router.use('/mongo', mongoTest)
+router.use('/mongo', mongo)
 
 module.exports = router
