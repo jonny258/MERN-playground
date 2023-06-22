@@ -3,9 +3,7 @@ import Footer from "../components/footer";
 import Header from "../components/header";
 
 function Person({ data }) {
-  console.log("data");
-  console.log(data[0]);
-  console.log("data");
+
   return (
     <>
       <div className="container">

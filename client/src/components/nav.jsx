@@ -34,8 +34,8 @@ function Nav() {
               <a className="nav-link" href="/write">
                 Write
               </a>
-              <a className="nav-link" href="/person">
-                Person
+              <a className="nav-link" href="/reddit">
+                Reddit
               </a>
             </div>
           </div>

@@ -39,3 +39,15 @@
 .person-card{
     min-width: 50px;
 }
+
+#sidebar {
+    position: fixed;
+    top: 55px;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+    padding: 48px 20px;
+    background-color: #d2d3d4;
+    overflow-y: auto;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
+  }
