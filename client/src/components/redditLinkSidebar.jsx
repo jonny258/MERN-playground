@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 
-const RedditLinkSidebar = () => {
+const RedditLinkSidebar = ({ func }) => {
   const [apiRedditLinks, setApiRedditLinks] = useState([]);
+  const [selectedIndex, setSelectedIndex] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -17,8 +18,22 @@ const RedditLinkSidebar = () => {
     fetchData();
   }, []);
 
-  const redditLinkHandler = (item) => {
-    console.log(item);
+  const redditLinkHandler = (item, index) => {
+    setSelectedIndex(index)
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:5000/scrapper/pages/${item.link}`
+        );
+        const data = await response.json();
+
+        await func(data)
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchData();
   };
 
   return (
@@ -28,8 +43,8 @@ const RedditLinkSidebar = () => {
         {apiRedditLinks.map((item, index) => (
           <li
             key={index}
-            className="list-group-item"
-            onClick={() => redditLinkHandler(item)}
+            className={index === selectedIndex ? "list-group-item active" : "list-group-item"}
+            onClick={() => redditLinkHandler(item, index)}
           >
             {item.name}
           </li>

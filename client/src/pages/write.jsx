@@ -27,7 +27,7 @@ function Write() {
 
   const writeButtonHandler = async () => {
     try {
-      console.log(apiPersonData)
+      console.log(firstNameRef)
       const newPerson = new Person(
         firstNameRef.current.value,
         lastNameRef.current.value,
